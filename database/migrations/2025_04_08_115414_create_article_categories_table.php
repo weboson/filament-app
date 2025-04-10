@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations. 
+     *! когда происходит миграция: создается описанная здесь таблица,
+     сами модели, для заполнения этих таблиц находятся в App/Models,
+     а для управления ими в папке Filament/
      */
     public function up(): void
     {
