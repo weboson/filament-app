@@ -17,6 +17,6 @@ class Category extends Model
     // для КАТЕГОРИИ (родителя)
     public function parent()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, ); // поле 'parent_id' - указывать не обязательно, потому что: Laravel автоматически связывает поле parent_id с методом hasMany() и методом belongsTo().
     }
 }
