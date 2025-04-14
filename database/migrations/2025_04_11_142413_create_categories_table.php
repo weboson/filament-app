@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // под капотом тип "bigIncrements" <- и он должен быть один
             $table->string('name');
-            $table->integer('parent_id')->nullable();
+            $table->foreignId('parent_id')->nullable()->onDelete('set null'); // или тип foreignId
 
             $table->timestamps();
         });
