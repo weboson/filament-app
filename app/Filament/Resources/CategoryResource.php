@@ -26,11 +26,12 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                // Forms\Components\TextInput::make('slug')
-                //     ->required()
-                //     ->maxLength(255),
-                Forms\Components\TextInput::make('parent_id')
-                    ->numeric(),
+                // Forms\Components\TextInput::make('parent_id')
+                //     ->numeric(),
+                Forms\Components\Select::make('parent_id')
+                    ->label('Родительская категория:')
+                    ->options(Category::all()->pluck('name', 'id'))
+                    ->searchable()
             ]);
     }
 
