@@ -2,20 +2,24 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AdsResource\Pages;
-use App\Filament\Resources\AdsResource\RelationManagers;
 use App\Models\Ads;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Set;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\AdsResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\AdsResource\RelationManagers;
 
 class AdsResource extends Resource
 {
     protected static ?string $model = Ads::class;
+    // кастомное имя поля
+    protected static ?string $navigationLabel = 'Объявления';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -25,7 +29,12 @@ class AdsResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    // при вводе текста в данном поле
+                    ->live(onBlur: true) // живое состояние (реактивное, без обновления страницы)
+                    ->afterStateUpdated(function (Set $set, $state) {
+                        $set('slug', Str::slug($state)); // устанавливать поле 'slug' встроенным в laravel (класс Str) методом slug
+                    }),
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
