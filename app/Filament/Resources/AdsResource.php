@@ -6,6 +6,7 @@ use App\Models\Ads;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Set;
+use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
@@ -44,9 +45,13 @@ class AdsResource extends Resource
                 Forms\Components\Textarea::make('text')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('category_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('category_id')
+                    ->label('Родительская категория:')
+                    ->options(Category::all()->pluck('name', 'id'))
+                    ->searchable(),
+                // Forms\Components\TextInput::make('category_id')
+                //     ->required()
+                //     ->numeric(),
                 Forms\Components\DateTimePicker::make('published_at')
                     ->required(),
             ]);

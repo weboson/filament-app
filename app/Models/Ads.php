@@ -11,6 +11,8 @@ class Ads extends Model
         'title',
         'slug',
         'image',
-        'text'
+        'text',
+        'category_id',
+        'published_at',
     ];
 }
