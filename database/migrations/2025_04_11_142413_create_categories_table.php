@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // переменная $table должна быть экземпляром класса Blueprint
         Schema::create('categories', function (Blueprint $table) {
             $table->id(); // под капотом тип "bigIncrements" <- и он должен быть один
             $table->string('name');
+            $table->string('slug'); // для url строки
             $table->foreignId('parent_id')->nullable()->onDelete('set null'); // или тип foreignId
 
             $table->timestamps();

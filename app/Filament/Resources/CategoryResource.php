@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Set;
+use App\Models\Category;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\CategoryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\CategoryResource\RelationManagers;
 
 class CategoryResource extends Resource
 {
@@ -21,9 +23,18 @@ class CategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
+        // форма создания
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255)
+                    // при вводе текста в данном поле
+                    ->live(onBlur: true) // живое состояние (реактивное, без обновления страницы)
+                    ->afterStateUpdated(function (Set $set, $state) {
+                        $set('slug', Str::slug($state)); // устанавливать поле 'slug' встроенным в laravel (класс Str) методом slug
+                    }),
+                Forms\Components\TextInput::make('slug') // для url строки
                     ->required()
                     ->maxLength(255),
                 // Forms\Components\TextInput::make('parent_id')
@@ -37,6 +48,7 @@ class CategoryResource extends Resource
 
     public static function table(Table $table): Table
     {
+        // таблица
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
