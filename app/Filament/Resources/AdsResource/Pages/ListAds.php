@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ArticleResource\Pages;
+namespace App\Filament\Resources\AdsResource\Pages;
 
-use App\Filament\Resources\ArticleResource;
+use App\Filament\Resources\AdsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListArticles extends ListRecords
+class ListAds extends ListRecords
 {
-    protected static string $resource = ArticleResource::class;
+    protected static string $resource = AdsResource::class;
 
     protected function getHeaderActions(): array
     {

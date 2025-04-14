@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ArticleCategoryResource\Pages;
-use App\Filament\Resources\ArticleCategoryResource\RelationManagers;
-use App\Models\ArticleCategory;
+use App\Filament\Resources\AdsResource\Pages;
+use App\Filament\Resources\AdsResource\RelationManagers;
+use App\Models\Ads;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ArticleCategoryResource extends Resource
+class AdsResource extends Resource
 {
-    protected static ?string $model = ArticleCategory::class;
+    protected static ?string $model = Ads::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,13 +23,22 @@ class ArticleCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->label('Наименование')
+                Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('slug')->label('Код')
+                Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('active')->label('Активность')
+                Forms\Components\FileUpload::make('image')
+                    ->image()
+                    ->required(),
+                Forms\Components\Textarea::make('text')
+                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('category_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\DateTimePicker::make('published_at')
                     ->required(),
             ]);
     }
@@ -38,12 +47,17 @@ class ArticleCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->label('Наименование')
+                Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('slug')->label('Код')
+                Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('active')->label('Активность')
-                    ->boolean(),
+                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('category_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('published_at')
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -76,9 +90,9 @@ class ArticleCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListArticleCategories::route('/'),
-            'create' => Pages\CreateArticleCategory::route('/create'),
-            'edit' => Pages\EditArticleCategory::route('/{record}/edit'),
+            'index' => Pages\ListAds::route('/'),
+            'create' => Pages\CreateAds::route('/create'),
+            'edit' => Pages\EditAds::route('/{record}/edit'),
         ];
     }
 }
