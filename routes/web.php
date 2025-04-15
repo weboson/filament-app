@@ -8,14 +8,16 @@ use App\Http\Controllers\HomeController;
 //     return view('welcome');
 // });
 
-//! Home
-Route::get('/', [HomeController::class, 'index'])->name('home'); // будет меню категорий, и кнопка на "/ads"
+
+//! теперь все роуты в api.php  -  для api/...
+// Route::get('/', [HomeController::class, 'index'])->name('home'); // будет меню категорий, и кнопка на "/ads"
+// Route::apiResource('/', HomeController::class);
 
 //! объявления 
 // список объявлений
-Route::get('/ads', [AdController::class, 'list'])->name('ads.list');
-// одно объявление
-Route::get('/ads/{id}', [AdController::class, 'index'])->name('ad.index');
+// Route::get('/ads', [AdController::class, 'list'])->name('ads.list');
+// // одно объявление
+// Route::get('/ads/{id}', [AdController::class, 'index'])->name('ad.index');
 
 
 // категории
