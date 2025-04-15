@@ -11,10 +11,4 @@ class HomeController extends Controller
     {
         return 'home';
     }
-
-    // для страницы About
-    public function about()
-    {
-        return 'about';
-    }
 }

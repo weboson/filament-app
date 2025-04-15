@@ -1,22 +1,25 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+//! Home
+Route::get('/', [HomeController::class, 'index'])->name('home'); // будет меню категорий, и кнопка на "/ads"
+
+//! объявления 
+// список объявлений
+Route::get('/ads', [AdController::class, 'list'])->name('ads.list');
+// одно объявление
+Route::get('/ads/{id}', [AdController::class, 'index'])->name('ad.index');
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/about', [HomeController::class, 'about'])->name('about');
-
-// список статей
-Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 // категории
-Route::get('/articles/tag/{tag}', [ArticleController::class, 'tag'])->name('articles.tag');
-Route::get('/articles/category/{category}', [ArticleController::class, 'category'])->name('articles.category');
-//  у каждой категории есть свои статьи (как у allo: mobilephone => объявления телефонов)
-Route::get('/articles/category/{category}/{articles}', [ArticleController::class, 'show'])->name('articles.show');
-// для тегов (логика, как у категорий) только путь /articles/tag/{nextParams}
+// Route::get('/articles/category/{category}', [ArticleController::class, 'category'])->name('articles.category');
+// //  у каждой категории есть свои статьи (как у allo: mobilephone => объявления телефонов)
+// Route::get('/articles/category/{category}/{articles}', [ArticleController::class, 'show'])->name('articles.show');
+// // для тегов (логика, как у категорий) только путь /articles/tag/{nextParams}
